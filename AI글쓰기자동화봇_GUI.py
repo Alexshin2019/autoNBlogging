@@ -850,14 +850,16 @@ class NaverBlogAutomationGUI:
             
             # 제목 입력
             title_text = blog_content["title"]
-            self.log(f"제목 입력: {title_text[:50]}...")
+            self.log(f"제목 입력 중: {title_text[:50]}...")
             
             try:
+                # 제목 입력 필드 찾기
                 title_element = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, ".se-section-documentTitle"))
                 )
                 
-                self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", title_element)
+                # 스크롤하여 보이게 하기
+                self.driver.execute_script("arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", title_element)
                 time.sleep(1)
                 
                 # 클릭 가능할 때까지 대기
@@ -865,62 +867,43 @@ class NaverBlogAutomationGUI:
                     EC.element_to_be_clickable((By.CSS_SELECTOR, ".se-section-documentTitle"))
                 )
                 
-                # 여러 방법으로 클릭 시도
-                try:
-                    title_element.click()
-                except:
-                    try:
-                        self.driver.execute_script("arguments[0].click();", title_element)
-                    except:
-                        pass
+                # JavaScript로 직접 텍스트 입력 및 글씨 크기 설정
+                self.driver.execute_script("""
+                    var element = arguments[0];
+                    element.focus();
+                    element.textContent = arguments[1];
+                    element.innerText = arguments[1];
+                    
+                    // 제목 글씨 크기 크게 설정 (26px)
+                    element.style.fontSize = '26px';
+                    element.style.fontWeight = 'bold';
+                    
+                    // 변경 이벤트 발생
+                    var event = new Event('input', { bubbles: true });
+                    element.dispatchEvent(event);
+                """, title_element, title_text)
                 
-                time.sleep(0.5)
-                
-                # 기존 내용 전체 선택 후 삭제
-                try:
-                    title_element.send_keys(Keys.CONTROL + 'a')
-                    time.sleep(0.2)
-                    title_element.send_keys(Keys.DELETE)
-                    time.sleep(0.2)
-                except:
-                    pass
-                
-                # ActionChains로 실제 타이핑 (더 확실함)
-                actions = ActionChains(self.driver)
-                for char in title_text:
-                    actions.send_keys(char)
-                    actions.pause(0.02)  # 천천히 타이핑
-                actions.perform()
-                
-                time.sleep(0.5)
-                
-                self.log("✓ 제목 입력 완료")
+                self.log("✓ 제목 입력 완료 (글씨 크기: 26px, 굵게)")
                 time.sleep(1)
                     
             except Exception as e:
                 self.log(f"✗ 제목 입력 오류: {str(e)}")
-                # 오류 발생 시 클립보드 방식으로 재시도
-                try:
-                    self.log("클립보드 방식으로 재시도 중...")
-                    pyperclip.copy(title_text)
-                    title_element.send_keys(Keys.CONTROL + 'v')
-                    time.sleep(0.5)
-                    self.log("✓ 제목 입력 완료 (클립보드 방식)")
-                except:
-                    self.log("✗ 제목 입력 재시도 실패")
             
             # 본문 입력
             content_text = blog_content["content"]
             self.log(f"본문 입력 중... (총 {len(content_text)}자)")
             
             try:
+                # 본문 입력 영역 찾기
                 content_element = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, ".se-section-text"))
                 )
                 
-                self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", content_element)
+                # 스크롤
+                self.driver.execute_script("arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", content_element)
                 time.sleep(1)
                 
+                # JavaScript로 클릭하고 포커스
                 self.driver.execute_script("""
                     var element = arguments[0];
                     element.click();
@@ -928,25 +911,25 @@ class NaverBlogAutomationGUI:
                 """, content_element)
                 time.sleep(1)
                 
-                # 본문을 문단별로 입력 (서식 적용)
+                # 본문을 문단별로 나누어 입력
                 paragraphs = [p.strip() for p in content_text.split('\n\n') if p.strip()]
-                self.log(f"총 {len(paragraphs)}개 문단 입력 (서식 적용)...")
+                self.log(f"총 {len(paragraphs)}개 문단 입력 시작...")
                 
+                # 천천히 타이핑 (실제로 입력되는 것처럼)
                 for i, paragraph in enumerate(paragraphs):
-                    # 첫 번째 문단은 인트로로 굵게
-                    if i == 0:
-                        self.log(f"  문단 {i+1}/{len(paragraphs)}: 인트로 (굵게)")
-                        self.apply_text_formatting(paragraph, is_intro=True)
-                    else:
-                        self.log(f"  문단 {i+1}/{len(paragraphs)}: 본문")
-                        self.apply_text_formatting(paragraph, is_intro=False)
+                    self.log(f"  문단 {i+1}/{len(paragraphs)} 입력 중...")
                     
-                    # 문단 사이 간격 (2줄 띄우기로 시각적 구분)
+                    # ActionChains로 실제 타이핑
+                    actions = ActionChains(self.driver)
+                    for char in paragraph:
+                        actions.send_keys(char)
+                        actions.pause(0.01)  # 빠르게
+                    actions.perform()
+                    
+                    # 문단 사이 Enter 2번
                     if i < len(paragraphs) - 1:
                         time.sleep(0.2)
                         actions = ActionChains(self.driver)
-                        # 문단 사이에 충분한 공간 (Enter 3번)
-                        actions.send_keys(Keys.ENTER)
                         actions.send_keys(Keys.ENTER)
                         actions.send_keys(Keys.ENTER)
                         actions.perform()
