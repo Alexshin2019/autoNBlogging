@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# 설정 파일 (민감한 정보 포함)
+config.json
+
+# 로그 파일
+실행로그_*.txt
+엑셀자동화로그_*.txt
+debug_button_info.txt
+
+# 스크린샷
+screenshot_*.png
+
+# 엑셀 임시 파일
+~$*.xlsx
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

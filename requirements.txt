@@ -1,0 +1,13 @@
+# AI 글쓰기 자동화봇 필수 라이브러리
+
+# 웹 자동화
+selenium==4.15.2
+
+# 클립보드 사용
+pyperclip==1.8.2
+
+# Gemini API
+google-genai==0.2.2
+
+# 엑셀 파일 처리
+openpyxl==3.1.2
