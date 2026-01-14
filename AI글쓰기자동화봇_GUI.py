@@ -1035,48 +1035,48 @@ A: [답변 5]
                 """, content_element)
                 time.sleep(1)
                 
-                # 방법 1: JavaScript로 본문 직접 입력 (빠른 방식)
+                # 클립보드를 이용한 텍스트 입력 (편집 가능하게 유지)
                 self.log("본문 데이터 삽입 중...")
                 
-                # 줄바꿈을 <br>로 변환
-                content_html = content_text.replace('\n', '<br>')
-                
-                # JavaScript로 HTML 삽입
                 try:
-                    self.driver.execute_script("""
-                        var element = arguments[0];
-                        element.innerHTML = arguments[1];
-                        
-                        // 변경 이벤트 발생
-                        var inputEvent = new Event('input', { bubbles: true });
-                        element.dispatchEvent(inputEvent);
-                        
-                        var changeEvent = new Event('change', { bubbles: true });
-                        element.dispatchEvent(changeEvent);
-                    """, content_element, content_html)
+                    # 클립보드에 텍스트 복사
+                    pyperclip.copy(content_text)
+                    time.sleep(0.5)
                     
-                    self.log("✓ 본문 입력 완료 (JavaScript 방식)")
+                    # Ctrl+V로 붙여넣기
+                    actions = ActionChains(self.driver)
+                    actions.key_down(Keys.CONTROL)
+                    actions.send_keys('v')
+                    actions.key_up(Keys.CONTROL)
+                    actions.perform()
+                    time.sleep(3)
+                    
+                    self.log("✓ 본문 입력 완료 (클립보드 방식)")
                     content_success = True
                     
-                except Exception as js_error:
-                    self.log(f"⚠ JavaScript 입력 실패: {str(js_error)}")
-                    self.log("대체 방법 시도: 클립보드 붙여넣기")
+                except Exception as clip_error:
+                    self.log(f"⚠ 클립보드 입력 실패: {str(clip_error)}")
+                    self.log("대체 방법 시도: 텍스트 직접 입력")
                     
-                    # 방법 2: 클립보드 붙여넣기 (대체 방식)
+                    # 방법 2: JavaScript textContent 사용 (HTML이 아닌 순수 텍스트)
                     try:
-                        pyperclip.copy(content_text)
-                        time.sleep(0.5)
+                        self.driver.execute_script("""
+                            var element = arguments[0];
+                            element.textContent = arguments[1];
+                            
+                            // 변경 이벤트 발생
+                            var inputEvent = new Event('input', { bubbles: true });
+                            element.dispatchEvent(inputEvent);
+                            
+                            var changeEvent = new Event('change', { bubbles: true });
+                            element.dispatchEvent(changeEvent);
+                        """, content_element, content_text)
                         
-                        actions = ActionChains(self.driver)
-                        actions.send_keys(Keys.CONTROL + 'v')
-                        actions.perform()
-                        time.sleep(2)
-                        
-                        self.log("✓ 본문 입력 완료 (클립보드 방식)")
+                        self.log("✓ 본문 입력 완료 (textContent 방식)")
                         content_success = True
                         
-                    except Exception as clip_error:
-                        self.log(f"⚠ 클립보드 입력도 실패: {str(clip_error)}")
+                    except Exception as js_error:
+                        self.log(f"⚠ textContent 입력도 실패: {str(js_error)}")
                 
                 time.sleep(2)
                     
