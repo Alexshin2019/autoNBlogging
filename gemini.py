@@ -2,9 +2,12 @@
 import os
 import sys
 
-# Windows 콘솔 인코딩 설정
-if sys.platform == "win32":
-    sys.stdout.reconfigure(encoding='utf-8')
+# Windows 콘솔 인코딩 설정 (GUI 모드에서는 건너뜀)
+if sys.platform == "win32" and sys.stdout is not None:
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except:
+        pass
 
 from google import genai
 
@@ -194,7 +197,7 @@ def main():
         print("예시 2: 블로그 글 생성")
         print("="*50)
         blog_post = gemini.generate_blog_post(
-            topic="파이썬으로 웹 스크래핑하는 방법",
+            topic="내 지식으로 돈 벌기, 왜 전자책이 답일까요?",
             style="초보자를 위한 친절한",
             word_count=500
         )
