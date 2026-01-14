@@ -719,7 +719,7 @@ class NaverBlogAutomationGUI:
     def generate_blog_content(self, topic):
         """블로그 글 생성"""
         try:
-            # 전문적인 블로그 형식의 커스텀 프롬프트
+            # 전문적인 블로그 형식의 커스텀 프롬프트 (HTML 형식)
             custom_prompt = f"""
 다음 주제로 전문적인 블로그 글을 작성해주세요:
 
@@ -730,9 +730,11 @@ class NaverBlogAutomationGUI:
 2. 본문 최상단: "※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다."
 3. 도입부: 주제와 관련된 공감 가는 상황 설명
 4. "✔ 이런 분들께 추천합니다!" 섹션 (4-5개 항목)
-5. "📌 목차" 섹션 (5-6개 항목)
+5. "📌 목차" 섹션 (5-6개 항목) - 각 목차 항목은 클릭 가능한 링크로 만들 것
 6. "🔍 전체 요약" 섹션 (2-3줄)
 7. 본문 내용 (3-5개의 소제목으로 구성, 각 소제목은 구체적이고 실용적인 정보 포함)
+   - 각 소제목은 큰 글씨와 굵게로 강조할 것
+   - 소제목에는 앵커 ID를 부여할 것
 8. "자주 묻는 질문(FAQ)" 섹션 (5개의 질문과 답변)
 9. "📌 참고할 만한 사이트" 섹션 (5개 링크)
 10. "📝 마무리 요약 및 실천 유도" 섹션
@@ -740,79 +742,85 @@ class NaverBlogAutomationGUI:
 
 작성 규칙:
 - 마크다운 문법(#, **, *, _)을 절대 사용하지 말 것
-- 순수 텍스트로만 작성
+- HTML 태그를 사용하여 구조화할 것
 - 각 섹션은 명확하게 구분
 - 친근하면서도 전문적인 어투
 - 구체적인 예시와 팁 포함
 
-출력 형식:
+출력 형식 (HTML 태그 사용):
 제목: [매력적인 제목]
 
-※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.
+<p>※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.</p>
 
-[도입부 문단]
+<p>[도입부 문단]</p>
 
-✔ 이런 분들께 추천합니다!
-- [추천 대상 1]
-- [추천 대상 2]
-- [추천 대상 3]
-- [추천 대상 4]
+<p><strong>✔ 이런 분들께 추천합니다!</strong></p>
+<ul>
+<li>[추천 대상 1]</li>
+<li>[추천 대상 2]</li>
+<li>[추천 대상 3]</li>
+<li>[추천 대상 4]</li>
+</ul>
 
-📌 목차
-- [목차 1]
-- [목차 2]
-- [목차 3]
-- [목차 4]
-- [목차 5]
+<p><strong>📌 목차</strong></p>
+<ul>
+<li><a href="#section1">[목차 1]</a></li>
+<li><a href="#section2">[목차 2]</a></li>
+<li><a href="#section3">[목차 3]</a></li>
+<li><a href="#section4">[목차 4]</a></li>
+<li><a href="#section5">[목차 5]</a></li>
+</ul>
 
-🔍 전체 요약
-[2-3줄 요약]
+<p><strong>🔍 전체 요약</strong></p>
+<p>[2-3줄 요약]</p>
 
-[소제목 1]
-[내용...]
+<h2 id="section1" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px;">[소제목 1]</h2>
+<p>[내용...]</p>
 
-[소제목 2]
-[내용...]
+<h2 id="section2" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px;">[소제목 2]</h2>
+<p>[내용...]</p>
 
-[소제목 3]
-[내용...]
+<h2 id="section3" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px;">[소제목 3]</h2>
+<p>[내용...]</p>
 
-자주 묻는 질문(FAQ)
-Q: [질문 1]
-A: [답변 1]
+<p><strong>자주 묻는 질문(FAQ)</strong></p>
+<p><strong>Q: [질문 1]</strong><br>
+A: [답변 1]</p>
 
-Q: [질문 2]
-A: [답변 2]
+<p><strong>Q: [질문 2]</strong><br>
+A: [답변 2]</p>
 
-Q: [질문 3]
-A: [답변 3]
+<p><strong>Q: [질문 3]</strong><br>
+A: [답변 3]</p>
 
-Q: [질문 4]
-A: [답변 4]
+<p><strong>Q: [질문 4]</strong><br>
+A: [답변 4]</p>
 
-Q: [질문 5]
-A: [답변 5]
+<p><strong>Q: [질문 5]</strong><br>
+A: [답변 5]</p>
 
-📌 참고할 만한 사이트
-- 쿠팡 공식 쇼핑몰: https://www.coupang.com
-- 네이버 스마트스토어: https://shopping.naver.com
-- [관련 사이트 3]
-- [관련 사이트 4]
-- [관련 사이트 5]
+<p><strong>📌 참고할 만한 사이트</strong></p>
+<ul>
+<li><a href="https://www.coupang.com" target="_blank">쿠팡 공식 쇼핑몰</a></li>
+<li><a href="https://shopping.naver.com" target="_blank">네이버 스마트스토어</a></li>
+<li>[관련 사이트 3]</li>
+<li>[관련 사이트 4]</li>
+<li>[관련 사이트 5]</li>
+</ul>
 
-📝 마무리 요약 및 실천 유도
-[마무리 문단 및 행동 촉구]
+<p><strong>📝 마무리 요약 및 실천 유도</strong></p>
+<p>[마무리 문단 및 행동 촉구]</p>
 
-※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.
+<p>※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.</p>
 
 블로그 글을 작성해주세요:
 """
-            
+
             blog_post = self.gemini.generate_content(custom_prompt)
-            
-            # 마크다운 제거
-            blog_post = self.remove_markdown(blog_post)
-            
+
+            # 마크다운 제거는 HTML 형식이므로 건너뜀
+            # blog_post = self.remove_markdown(blog_post)
+
             # 제목과 본문 분리
             lines = blog_post.strip().split('\n')
             title = ""
@@ -1035,48 +1043,53 @@ A: [답변 5]
                 """, content_element)
                 time.sleep(1)
                 
-                # 클립보드를 이용한 텍스트 입력 (편집 가능하게 유지)
-                self.log("본문 데이터 삽입 중...")
+                # HTML 형식 유지하면서 입력 (편집 가능하게)
+                self.log("본문 데이터 삽입 중... (HTML 형식)")
                 
                 try:
-                    # 클립보드에 텍스트 복사
-                    pyperclip.copy(content_text)
-                    time.sleep(0.5)
+                    # execCommand를 사용하여 HTML 삽입 (편집 가능 유지)
+                    self.driver.execute_script("""
+                        var element = arguments[0];
+                        var html = arguments[1];
+                        
+                        // contenteditable 요소에 포커스
+                        element.focus();
+                        
+                        // execCommand를 사용하여 HTML 삽입
+                        document.execCommand('selectAll', false, null);
+                        document.execCommand('delete', false, null);
+                        document.execCommand('insertHTML', false, html);
+                        
+                        // 변경 이벤트 발생
+                        var inputEvent = new Event('input', { bubbles: true });
+                        element.dispatchEvent(inputEvent);
+                    """, content_element, content_text)
                     
-                    # Ctrl+V로 붙여넣기
-                    actions = ActionChains(self.driver)
-                    actions.key_down(Keys.CONTROL)
-                    actions.send_keys('v')
-                    actions.key_up(Keys.CONTROL)
-                    actions.perform()
+                    self.log("✓ 본문 입력 완료 (HTML 방식)")
+                    content_success = True
                     time.sleep(3)
                     
-                    self.log("✓ 본문 입력 완료 (클립보드 방식)")
-                    content_success = True
+                except Exception as html_error:
+                    self.log(f"⚠ HTML 입력 실패: {str(html_error)}")
+                    self.log("대체 방법 시도: 클립보드 붙여넣기")
                     
-                except Exception as clip_error:
-                    self.log(f"⚠ 클립보드 입력 실패: {str(clip_error)}")
-                    self.log("대체 방법 시도: 텍스트 직접 입력")
-                    
-                    # 방법 2: JavaScript textContent 사용 (HTML이 아닌 순수 텍스트)
+                    # 방법 2: 클립보드 붙여넣기 (HTML 태그가 텍스트로 보일 수 있음)
                     try:
-                        self.driver.execute_script("""
-                            var element = arguments[0];
-                            element.textContent = arguments[1];
-                            
-                            // 변경 이벤트 발생
-                            var inputEvent = new Event('input', { bubbles: true });
-                            element.dispatchEvent(inputEvent);
-                            
-                            var changeEvent = new Event('change', { bubbles: true });
-                            element.dispatchEvent(changeEvent);
-                        """, content_element, content_text)
+                        pyperclip.copy(content_text)
+                        time.sleep(0.5)
                         
-                        self.log("✓ 본문 입력 완료 (textContent 방식)")
+                        actions = ActionChains(self.driver)
+                        actions.key_down(Keys.CONTROL)
+                        actions.send_keys('v')
+                        actions.key_up(Keys.CONTROL)
+                        actions.perform()
+                        time.sleep(3)
+                        
+                        self.log("✓ 본문 입력 완료 (클립보드 방식)")
                         content_success = True
                         
-                    except Exception as js_error:
-                        self.log(f"⚠ textContent 입력도 실패: {str(js_error)}")
+                    except Exception as clip_error:
+                        self.log(f"⚠ 클립보드 입력도 실패: {str(clip_error)}")
                 
                 time.sleep(2)
                     
