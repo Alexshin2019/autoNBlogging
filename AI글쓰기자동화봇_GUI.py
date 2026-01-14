@@ -621,35 +621,72 @@ class NaverBlogAutomationGUI:
     def naver_login(self):
         """네이버 로그인"""
         try:
+            self.log("네이버 로그인 페이지 접속 중...")
             self.driver.get("https://nid.naver.com/nidlogin.login")
-            time.sleep(2)
-            
+            time.sleep(3)
+
             # 아이디 입력
-            id_input = WebDriverWait(self.driver, 10).until(
+            self.log("아이디 입력 중...")
+            id_input = WebDriverWait(self.driver, 15).until(
                 EC.presence_of_element_located((By.ID, "id"))
             )
             self.input_with_clipboard(id_input, self.naver_id_var.get())
-            
+
             # 비밀번호 입력
+            self.log("비밀번호 입력 중...")
             pw_input = self.driver.find_element(By.ID, "pw")
             self.input_with_clipboard(pw_input, self.naver_pw_var.get())
-            
+
             # 로그인 버튼 클릭
+            self.log("로그인 버튼 클릭...")
             login_button = self.driver.find_element(By.ID, "log.login")
             login_button.click()
-            
-            time.sleep(3)
-            self.log("✓ 네이버 로그인 완료")
-            
-            # 블로그 글쓰기 페이지로 이동
-            self.driver.get("https://blog.naver.com/GoBlogWrite.naver")
+
+            # 로그인 완료 대기 (URL 변경 확인)
+            self.log("로그인 처리 대기 중...")
             time.sleep(5)
-            self.log("✓ 블로그 글쓰기 페이지 접속")
             
+            # 현재 URL 확인
+            current_url = self.driver.current_url
+            self.log(f"현재 URL: {current_url}")
+            
+            # 로그인 실패 확인
+            if "nidlogin.login" in current_url:
+                self.log("⚠ 로그인 페이지에 머물러 있습니다")
+                self.log("⚠ 수동으로 로그인을 완료해주세요 (10초 대기)")
+                time.sleep(10)
+            else:
+                self.log("✓ 네이버 로그인 완료")
+
+            # 블로그 글쓰기 페이지로 이동
+            self.log("블로그 글쓰기 페이지로 이동 중...")
+            self.driver.get("https://blog.naver.com/GoBlogWrite.naver")
+            time.sleep(7)
+            
+            # 페이지 로드 확인
+            try:
+                WebDriverWait(self.driver, 15).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "#mainFrame"))
+                )
+                self.log("✓ 블로그 글쓰기 페이지 로드 완료")
+            except:
+                self.log("⚠ 글쓰기 페이지 로드 지연 - 추가 대기")
+                time.sleep(5)
+
             return True
-            
+
         except Exception as e:
             self.log(f"✗ 로그인 오류: {str(e)}")
+            
+            # 에러 스크린샷
+            try:
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                screenshot_path = f"login_error_{timestamp}.png"
+                self.driver.save_screenshot(screenshot_path)
+                self.log(f"📸 로그인 에러 스크린샷: {screenshot_path}")
+            except:
+                pass
+                
             return False
             
     def input_with_clipboard(self, element, text):
@@ -883,12 +920,28 @@ A: [답변 5]
         try:
             self.log("iframe 전환 시도...")
             
-            # iframe 전환
-            iframe = WebDriverWait(self.driver, 15).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "#mainFrame"))
-            )
-            self.driver.switch_to.frame(iframe)
-            self.log("✓ iframe 전환 완료")
+            # iframe 전환 (재시도 로직)
+            iframe_found = False
+            for attempt in range(3):
+                try:
+                    iframe = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, "#mainFrame"))
+                    )
+                    self.driver.switch_to.frame(iframe)
+                    iframe_found = True
+                    self.log(f"✓ iframe 전환 완료 (시도 {attempt + 1}/3)")
+                    break
+                except Exception as e:
+                    self.log(f"⚠ iframe 전환 실패 (시도 {attempt + 1}/3): {str(e)}")
+                    if attempt < 2:
+                        self.log("재시도 중...")
+                        time.sleep(3)
+                    else:
+                        raise Exception("iframe을 찾을 수 없습니다")
+            
+            if not iframe_found:
+                raise Exception("iframe 전환 실패")
+                
             time.sleep(3)
             
             # 팝업 닫기
@@ -982,27 +1035,49 @@ A: [답변 5]
                 """, content_element)
                 time.sleep(1)
                 
-                # JavaScript로 본문 직접 입력 (안정적이고 빠름)
+                # 방법 1: JavaScript로 본문 직접 입력 (빠른 방식)
                 self.log("본문 데이터 삽입 중...")
                 
                 # 줄바꿈을 <br>로 변환
                 content_html = content_text.replace('\n', '<br>')
                 
                 # JavaScript로 HTML 삽입
-                self.driver.execute_script("""
-                    var element = arguments[0];
-                    element.innerHTML = arguments[1];
+                try:
+                    self.driver.execute_script("""
+                        var element = arguments[0];
+                        element.innerHTML = arguments[1];
+                        
+                        // 변경 이벤트 발생
+                        var inputEvent = new Event('input', { bubbles: true });
+                        element.dispatchEvent(inputEvent);
+                        
+                        var changeEvent = new Event('change', { bubbles: true });
+                        element.dispatchEvent(changeEvent);
+                    """, content_element, content_html)
                     
-                    // 변경 이벤트 발생
-                    var inputEvent = new Event('input', { bubbles: true });
-                    element.dispatchEvent(inputEvent);
+                    self.log("✓ 본문 입력 완료 (JavaScript 방식)")
+                    content_success = True
                     
-                    var changeEvent = new Event('change', { bubbles: true });
-                    element.dispatchEvent(changeEvent);
-                """, content_element, content_html)
+                except Exception as js_error:
+                    self.log(f"⚠ JavaScript 입력 실패: {str(js_error)}")
+                    self.log("대체 방법 시도: 클립보드 붙여넣기")
+                    
+                    # 방법 2: 클립보드 붙여넣기 (대체 방식)
+                    try:
+                        pyperclip.copy(content_text)
+                        time.sleep(0.5)
+                        
+                        actions = ActionChains(self.driver)
+                        actions.send_keys(Keys.CONTROL + 'v')
+                        actions.perform()
+                        time.sleep(2)
+                        
+                        self.log("✓ 본문 입력 완료 (클립보드 방식)")
+                        content_success = True
+                        
+                    except Exception as clip_error:
+                        self.log(f"⚠ 클립보드 입력도 실패: {str(clip_error)}")
                 
-                self.log("✓ 본문 입력 완료")
-                content_success = True
                 time.sleep(2)
                     
             except Exception as e:
@@ -1011,6 +1086,7 @@ A: [답변 5]
                 
             if not content_success:
                 self.log("⚠ 본문 입력 실패 - 수동으로 입력해주세요")
+                self.log(f"📋 생성된 본문 내용 (첫 200자):\n{content_text[:200]}...")
             
             # 저장 버튼 클릭
             self.log("저장 버튼 검색 중...")
