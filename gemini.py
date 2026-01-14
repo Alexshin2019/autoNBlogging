@@ -115,23 +115,23 @@ class GeminiAPI:
 - 구체적인 예시와 팁 포함
 - 실용적이고 도움되는 정보 중심
 
-출력 형식 (HTML 태그 사용):
+출력 형식 (HTML 태그 사용, 모든 텍스트는 왼쪽 정렬):
 제목: [매력적인 제목]
 
-<p>※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.</p>
+<p style="text-align: left;">※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.</p>
 
-<p>[도입부 문단]</p>
+<p style="text-align: left;">[도입부 문단]</p>
 
-<p><strong>✔ 이런 분들께 추천합니다!</strong></p>
-<ul>
+<p style="text-align: left;"><strong>✔ 이런 분들께 추천합니다!</strong></p>
+<ul style="text-align: left;">
 <li>[추천 대상 1]</li>
 <li>[추천 대상 2]</li>
 <li>[추천 대상 3]</li>
 <li>[추천 대상 4]</li>
 </ul>
 
-<p><strong>📌 목차</strong></p>
-<ul>
+<p style="text-align: left;"><strong>📌 목차</strong></p>
+<ul style="text-align: left;">
 <li><a href="#section1">[목차 1]</a></li>
 <li><a href="#section2">[목차 2]</a></li>
 <li><a href="#section3">[목차 3]</a></li>
@@ -139,36 +139,36 @@ class GeminiAPI:
 <li><a href="#section5">[목차 5]</a></li>
 </ul>
 
-<p><strong>🔍 전체 요약</strong></p>
-<p>[2-3줄 요약]</p>
+<p style="text-align: left;"><strong>🔍 전체 요약</strong></p>
+<p style="text-align: left;">[2-3줄 요약]</p>
 
-<h2 id="section1" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px;">[소제목 1]</h2>
-<p>[내용...]</p>
+<h2 id="section1" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px; text-align: left;">[소제목 1]</h2>
+<p style="text-align: left;">[내용...]</p>
 
-<h2 id="section2" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px;">[소제목 2]</h2>
-<p>[내용...]</p>
+<h2 id="section2" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px; text-align: left;">[소제목 2]</h2>
+<p style="text-align: left;">[내용...]</p>
 
-<h2 id="section3" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px;">[소제목 3]</h2>
-<p>[내용...]</p>
+<h2 id="section3" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px; text-align: left;">[소제목 3]</h2>
+<p style="text-align: left;">[내용...]</p>
 
-<p><strong>자주 묻는 질문(FAQ)</strong></p>
-<p><strong>Q: [질문 1]</strong><br>
+<p style="text-align: left;"><strong>자주 묻는 질문(FAQ)</strong></p>
+<p style="text-align: left;"><strong>Q: [질문 1]</strong><br>
 A: [답변 1]</p>
 
-<p><strong>Q: [질문 2]</strong><br>
+<p style="text-align: left;"><strong>Q: [질문 2]</strong><br>
 A: [답변 2]</p>
 
-<p><strong>Q: [질문 3]</strong><br>
+<p style="text-align: left;"><strong>Q: [질문 3]</strong><br>
 A: [답변 3]</p>
 
-<p><strong>Q: [질문 4]</strong><br>
+<p style="text-align: left;"><strong>Q: [질문 4]</strong><br>
 A: [답변 4]</p>
 
-<p><strong>Q: [질문 5]</strong><br>
+<p style="text-align: left;"><strong>Q: [질문 5]</strong><br>
 A: [답변 5]</p>
 
-<p><strong>📌 참고할 만한 사이트</strong></p>
-<ul>
+<p style="text-align: left;"><strong>📌 참고할 만한 사이트</strong></p>
+<ul style="text-align: left;">
 <li><a href="https://www.coupang.com" target="_blank">쿠팡 공식 쇼핑몰</a></li>
 <li><a href="https://shopping.naver.com" target="_blank">네이버 스마트스토어</a></li>
 <li>[관련 사이트 3]</li>
@@ -176,10 +176,10 @@ A: [답변 5]</p>
 <li>[관련 사이트 5]</li>
 </ul>
 
-<p><strong>📝 마무리 요약 및 실천 유도</strong></p>
-<p>[마무리 문단 및 행동 촉구]</p>
+<p style="text-align: left;"><strong>📝 마무리 요약 및 실천 유도</strong></p>
+<p style="text-align: left;">[마무리 문단 및 행동 촉구]</p>
 
-<p>※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.</p>
+<p style="text-align: left;">※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.</p>
 
 블로그 글을 작성해주세요:
 """
