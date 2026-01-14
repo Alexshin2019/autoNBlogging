@@ -1011,13 +1011,9 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
                 title_element.send_keys(Keys.DELETE)
                 time.sleep(0.3)
                 
-                # send_keys로 직접 제목 입력 (텍스트로 입력됨)
+                # send_keys로 직접 제목 입력 (텍스트로 입력됨, Enter 누르지 않음)
                 title_element.send_keys(title_text)
-                time.sleep(0.8)
-                
-                # Enter 키를 눌러 제목 확정 (편집 가능 유지)
-                title_element.send_keys(Keys.RETURN)
-                time.sleep(0.3)
+                time.sleep(1.0)
 
                 self.log("✓ 제목 입력 완료 (텍스트로 편집 가능)")
                 title_success = True
