@@ -146,15 +146,15 @@ class GeminiAPI:
 <p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>🔍 전체 요약</strong></p>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 25px;">[2-3줄 요약]</p>
 
-<h2 id="section1" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 1]</h2>
+<h2 id="section1" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 1]</h2>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 구체적인 예시 포함]</p>
 
-<h2 id="section2" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 2]</h2>
+<h2 id="section2" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 2]</h2>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 실용적인 팁 포함]</p>
 
-<h2 id="section3" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 3]</h2>
+<h2 id="section3" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 3]</h2>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장]</p>
 

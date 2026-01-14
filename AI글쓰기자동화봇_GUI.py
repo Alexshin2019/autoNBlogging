@@ -779,15 +779,15 @@ class NaverBlogAutomationGUI:
 <p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>🔍 전체 요약</strong></p>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 25px;">[2-3줄 요약]</p>
 
-<h2 id="section1" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 1]</h2>
+<h2 id="section1" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 1]</h2>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 구체적인 예시 포함]</p>
 
-<h2 id="section2" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 2]</h2>
+<h2 id="section2" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 2]</h2>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 실용적인 팁 포함]</p>
 
-<h2 id="section3" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 3]</h2>
+<h2 id="section3" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 3]</h2>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장]</p>
 
@@ -980,7 +980,7 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
             
             time.sleep(1)
             
-            # 제목 입력 (순수 텍스트 입력 - 완전히 편집 가능하게)
+            # 제목 입력 (ActionChains로 텍스트 입력 - 완전히 편집 가능하게)
             title_text = blog_content["title"]
             self.log(f"제목 입력 중: {title_text[:50]}...")
 
@@ -1006,22 +1006,20 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
                 time.sleep(0.5)
                 
                 # 기존 텍스트 전체 선택 및 삭제
-                title_element.send_keys(Keys.CONTROL + 'a')
+                actions = ActionChains(self.driver)
+                actions.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
                 time.sleep(0.2)
-                title_element.send_keys(Keys.DELETE)
+                actions.send_keys(Keys.DELETE).perform()
                 time.sleep(0.3)
                 
-                # 클립보드로 제목 복사 및 붙여넣기 (스타일 적용 없이)
-                pyperclip.copy(title_text)
-                time.sleep(0.3)
-                title_element.send_keys(Keys.CONTROL + 'v')
-                time.sleep(0.8)
+                # ActionChains로 제목 입력 (한 글자씩)
+                for char in title_text:
+                    actions.send_keys(char).perform()
+                    time.sleep(0.01)  # 빠르게 입력
                 
-                # 포커스 유지를 위해 한 번 더 클릭
-                title_element.click()
-                time.sleep(0.2)
+                time.sleep(0.5)
 
-                self.log("✓ 제목 입력 완료 (완전히 편집 가능)")
+                self.log("✓ 제목 입력 완료 (텍스트로 편집 가능)")
                 title_success = True
                 time.sleep(1)
 
