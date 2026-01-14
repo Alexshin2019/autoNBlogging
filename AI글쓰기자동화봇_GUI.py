@@ -980,7 +980,7 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
             
             time.sleep(1)
             
-            # 제목 입력 (클립보드 방식 - 편집 가능하게)
+            # 제목 입력 (순수 텍스트 입력 - 완전히 편집 가능하게)
             title_text = blog_content["title"]
             self.log(f"제목 입력 중: {title_text[:50]}...")
 
@@ -1001,7 +1001,7 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
                     EC.element_to_be_clickable((By.CSS_SELECTOR, ".se-section-documentTitle"))
                 )
 
-                # 클립보드를 사용한 제목 입력 (편집 가능)
+                # 제목 필드 클릭
                 title_element.click()
                 time.sleep(0.5)
                 
@@ -1009,22 +1009,19 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
                 title_element.send_keys(Keys.CONTROL + 'a')
                 time.sleep(0.2)
                 title_element.send_keys(Keys.DELETE)
-                time.sleep(0.2)
+                time.sleep(0.3)
                 
-                # 클립보드로 제목 복사 및 붙여넣기
+                # 클립보드로 제목 복사 및 붙여넣기 (스타일 적용 없이)
                 pyperclip.copy(title_text)
                 time.sleep(0.3)
                 title_element.send_keys(Keys.CONTROL + 'v')
-                time.sleep(0.5)
+                time.sleep(0.8)
                 
-                # 제목 글씨 크기 설정 (JavaScript로 스타일만 적용)
-                self.driver.execute_script("""
-                    var element = arguments[0];
-                    element.style.fontSize = '26px';
-                    element.style.fontWeight = 'bold';
-                """, title_element)
+                # 포커스 유지를 위해 한 번 더 클릭
+                title_element.click()
+                time.sleep(0.2)
 
-                self.log("✓ 제목 입력 완료 (클립보드 방식, 편집 가능)")
+                self.log("✓ 제목 입력 완료 (완전히 편집 가능)")
                 title_success = True
                 time.sleep(1)
 
