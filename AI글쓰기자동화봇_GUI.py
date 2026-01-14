@@ -585,20 +585,37 @@ class NaverBlogAutomationGUI:
     def setup_driver(self):
         """크롬 드라이버 설정"""
         options = webdriver.ChromeOptions()
+        
+        # 자동화 감지 방지
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
         
+        # 안정성 향상 옵션
+        options.add_argument("--disable-dev-shm-usage")  # /dev/shm 공유 메모리 문제 방지
+        options.add_argument("--no-sandbox")  # 샌드박스 비활성화 (안정성 향상)
+        options.add_argument("--disable-gpu")  # GPU 가속 비활성화
+        options.add_argument("--disable-software-rasterizer")  # 소프트웨어 래스터라이저 비활성화
+        options.add_argument("--disable-extensions")  # 확장 프로그램 비활성화
+        
+        # 메모리 관리
+        options.add_argument("--disable-features=VizDisplayCompositor")
+        options.add_argument("--js-flags=--max-old-space-size=4096")  # JavaScript 힙 메모리 증가
+
         prefs = {
             "credentials_enable_service": False,
             "profile.password_manager_enabled": False
         }
         options.add_experimental_option("prefs", prefs)
-        
+
         driver = webdriver.Chrome(options=options)
         driver.maximize_window()
         
-        self.log("✓ 크롬 드라이버 설정 완료")
+        # 타임아웃 설정
+        driver.set_page_load_timeout(60)
+        driver.set_script_timeout(30)
+
+        self.log("✓ 크롬 드라이버 설정 완료 (안정성 옵션 적용)")
         return driver
         
     def naver_login(self):
@@ -864,11 +881,14 @@ A: [답변 5]
     def write_blog_post(self, blog_content):
         """블로그 글 작성"""
         try:
+            self.log("iframe 전환 시도...")
+            
             # iframe 전환
             iframe = WebDriverWait(self.driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#mainFrame"))
             )
             self.driver.switch_to.frame(iframe)
+            self.log("✓ iframe 전환 완료")
             time.sleep(3)
             
             # 팝업 닫기
@@ -894,11 +914,13 @@ A: [답변 5]
             title_text = blog_content["title"]
             self.log(f"제목 입력 중: {title_text[:50]}...")
             
+            title_success = False
             try:
                 # 제목 입력 필드 찾기
                 title_element = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, ".se-section-documentTitle"))
                 )
+                self.log("✓ 제목 요소 발견")
                 
                 # 스크롤하여 보이게 하기
                 self.driver.execute_script("arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", title_element)
@@ -926,20 +948,27 @@ A: [답변 5]
                 """, title_element, title_text)
                 
                 self.log("✓ 제목 입력 완료 (글씨 크기: 26px, 굵게)")
+                title_success = True
                 time.sleep(1)
                     
             except Exception as e:
                 self.log(f"✗ 제목 입력 오류: {str(e)}")
+                self.log("⚠ 제목 입력을 건너뜁니다")
+                
+            if not title_success:
+                self.log("⚠ 제목 입력 실패 - 수동으로 입력해주세요")
             
             # 본문 입력
             content_text = blog_content["content"]
             self.log(f"본문 입력 중... (총 {len(content_text)}자)")
             
+            content_success = False
             try:
                 # 본문 입력 영역 찾기
                 content_element = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, ".se-section-text"))
                 )
+                self.log("✓ 본문 요소 발견")
                 
                 # 스크롤
                 self.driver.execute_script("arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", content_element)
@@ -953,37 +982,35 @@ A: [답변 5]
                 """, content_element)
                 time.sleep(1)
                 
-                # 본문을 줄별로 입력 (구조 유지)
-                lines = content_text.split('\n')
-                total_lines = len(lines)
-                self.log(f"총 {total_lines}줄 입력 시작...")
+                # JavaScript로 본문 직접 입력 (안정적이고 빠름)
+                self.log("본문 데이터 삽입 중...")
                 
-                # 천천히 타이핑 (실제로 입력되는 것처럼)
-                for i, line in enumerate(lines):
-                    if i % 10 == 0:  # 10줄마다 진행 상황 표시
-                        self.log(f"  {i}/{total_lines}줄 입력 중...")
+                # 줄바꿈을 <br>로 변환
+                content_html = content_text.replace('\n', '<br>')
+                
+                # JavaScript로 HTML 삽입
+                self.driver.execute_script("""
+                    var element = arguments[0];
+                    element.innerHTML = arguments[1];
                     
-                    line_stripped = line.strip()
-                    if line_stripped:
-                        # ActionChains로 실제 타이핑
-                        actions = ActionChains(self.driver)
-                        for char in line_stripped:
-                            actions.send_keys(char)
-                            actions.pause(0.008)  # 빠르게
-                        actions.perform()
+                    // 변경 이벤트 발생
+                    var inputEvent = new Event('input', { bubbles: true });
+                    element.dispatchEvent(inputEvent);
                     
-                    # 줄바꿈
-                    if i < len(lines) - 1:
-                        actions = ActionChains(self.driver)
-                        actions.send_keys(Keys.ENTER)
-                        actions.perform()
-                        time.sleep(0.05)
+                    var changeEvent = new Event('change', { bubbles: true });
+                    element.dispatchEvent(changeEvent);
+                """, content_element, content_html)
                 
                 self.log("✓ 본문 입력 완료")
+                content_success = True
                 time.sleep(2)
                     
             except Exception as e:
                 self.log(f"✗ 본문 입력 오류: {str(e)}")
+                self.log("⚠ 본문 입력을 건너뜁니다")
+                
+            if not content_success:
+                self.log("⚠ 본문 입력 실패 - 수동으로 입력해주세요")
             
             # 저장 버튼 클릭
             self.log("저장 버튼 검색 중...")
@@ -1050,10 +1077,22 @@ A: [답변 5]
             
         except Exception as e:
             self.log(f"✗ 블로그 글 작성 오류: {str(e)}")
+            
+            # 에러 스크린샷 저장
+            try:
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                screenshot_path = f"error_screenshot_{timestamp}.png"
+                self.driver.save_screenshot(screenshot_path)
+                self.log(f"📸 에러 스크린샷 저장: {screenshot_path}")
+            except Exception as ss_error:
+                self.log(f"스크린샷 저장 실패: {str(ss_error)}")
+            
+            # iframe에서 나오기
             try:
                 self.driver.switch_to.default_content()
             except:
                 pass
+            
             return False
 
 
