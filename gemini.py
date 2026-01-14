@@ -35,7 +35,7 @@ class GeminiAPI:
         except Exception as error:
             raise Exception(f"Gemini API 초기화 실패: {str(error)}")
     
-    def generate_content(self, prompt, temperature=1.0, max_output_tokens=8192):
+    def generate_content(self, prompt, temperature=1.0, max_output_tokens=16384):
         """
         텍스트 생성 요청
         
@@ -95,16 +95,18 @@ class GeminiAPI:
 필수 구성 요소:
 1. 매력적이고 클릭하고 싶은 제목 (감탄사나 질문형)
 2. 본문 최상단: "※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다."
-3. 도입부: 주제와 관련된 공감 가는 상황 설명
+3. 도입부: 주제와 관련된 공감 가는 상황 설명 (3-4문장, 충분히 상세하게)
 4. "✔ 이런 분들께 추천합니다!" 섹션 (4-5개 항목)
 5. "📌 목차" 섹션 (5-6개 항목) - 각 목차 항목은 클릭 가능한 링크로 만들 것
 6. "🔍 전체 요약" 섹션 (2-3줄)
-7. 본문 내용 (3-5개의 소제목으로 구성, 각 소제목은 구체적이고 실용적인 정보 포함)
+7. 본문 내용 (5-7개의 소제목으로 구성, 각 소제목 아래에 최소 5-8문장의 상세한 내용 작성)
    - 각 소제목은 큰 글씨와 굵게로 강조할 것
    - 소제목에는 앵커 ID를 부여할 것
-8. "자주 묻는 질문(FAQ)" 섹션 (5개의 질문과 답변)
+   - 각 소제목 내용은 구체적인 예시, 통계, 실용적인 팁을 반드시 포함
+   - 문단은 3-4문장으로 구성하고, 읽기 쉽게 나눌 것
+8. "자주 묻는 질문(FAQ)" 섹션 (5개의 질문과 답변, 각 답변은 2-3문장으로 상세하게)
 9. "📌 참고할 만한 사이트" 섹션 (5개 링크 - 쿠팡, 네이버쇼핑 등)
-10. "📝 마무리 요약 및 실천 유도" 섹션
+10. "📝 마무리 요약 및 실천 유도" 섹션 (3-4문장, 구체적인 행동 촉구)
 11. 마지막: "※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다..."
 
 작성 규칙:
@@ -112,26 +114,28 @@ class GeminiAPI:
 - HTML 태그를 사용하여 구조화할 것
 - 각 섹션은 명확하게 구분
 - 친근하면서도 전문적인 어투
-- 구체적인 예시와 팁 포함
+- 구체적인 예시와 팁을 반드시 포함
 - 실용적이고 도움되는 정보 중심
+- 본문은 충분히 길고 상세하게 작성 (최소 2000자 이상)
+- 각 문단은 3-4문장으로 구성하여 읽기 쉽게
 
-출력 형식 (HTML 태그 사용, 모든 텍스트는 왼쪽 정렬):
+출력 형식 (HTML 태그 사용, 모든 텍스트는 왼쪽 정렬, 줄 간격 1.8 적용):
 제목: [매력적인 제목]
 
-<p style="text-align: left;">※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.</p>
 
-<p style="text-align: left;">[도입부 문단]</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 20px;">[도입부 문단 - 3-4문장으로 충분히 상세하게 작성]</p>
 
-<p style="text-align: left;"><strong>✔ 이런 분들께 추천합니다!</strong></p>
-<ul style="text-align: left;">
+<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>✔ 이런 분들께 추천합니다!</strong></p>
+<ul style="text-align: left; line-height: 1.8; margin-bottom: 20px;">
 <li>[추천 대상 1]</li>
 <li>[추천 대상 2]</li>
 <li>[추천 대상 3]</li>
 <li>[추천 대상 4]</li>
 </ul>
 
-<p style="text-align: left;"><strong>📌 목차</strong></p>
-<ul style="text-align: left;">
+<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📌 목차</strong></p>
+<ul style="text-align: left; line-height: 1.8; margin-bottom: 20px;">
 <li><a href="#section1">[목차 1]</a></li>
 <li><a href="#section2">[목차 2]</a></li>
 <li><a href="#section3">[목차 3]</a></li>
@@ -139,36 +143,39 @@ class GeminiAPI:
 <li><a href="#section5">[목차 5]</a></li>
 </ul>
 
-<p style="text-align: left;"><strong>🔍 전체 요약</strong></p>
-<p style="text-align: left;">[2-3줄 요약]</p>
+<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>🔍 전체 요약</strong></p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 25px;">[2-3줄 요약]</p>
 
-<h2 id="section1" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px; text-align: left;">[소제목 1]</h2>
-<p style="text-align: left;">[내용...]</p>
+<h2 id="section1" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 1]</h2>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 구체적인 예시 포함]</p>
 
-<h2 id="section2" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px; text-align: left;">[소제목 2]</h2>
-<p style="text-align: left;">[내용...]</p>
+<h2 id="section2" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 2]</h2>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 실용적인 팁 포함]</p>
 
-<h2 id="section3" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 30px; text-align: left;">[소제목 3]</h2>
-<p style="text-align: left;">[내용...]</p>
+<h2 id="section3" style="font-size: 20px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 3]</h2>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장]</p>
 
-<p style="text-align: left;"><strong>자주 묻는 질문(FAQ)</strong></p>
-<p style="text-align: left;"><strong>Q: [질문 1]</strong><br>
-A: [답변 1]</p>
+<p style="text-align: left; line-height: 1.8; margin-top: 35px; margin-bottom: 10px;"><strong>자주 묻는 질문(FAQ)</strong></p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 1]</strong><br>
+A: [답변 1 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left;"><strong>Q: [질문 2]</strong><br>
-A: [답변 2]</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 2]</strong><br>
+A: [답변 2 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left;"><strong>Q: [질문 3]</strong><br>
-A: [답변 3]</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 3]</strong><br>
+A: [답변 3 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left;"><strong>Q: [질문 4]</strong><br>
-A: [답변 4]</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 4]</strong><br>
+A: [답변 4 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left;"><strong>Q: [질문 5]</strong><br>
-A: [답변 5]</p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 5]</strong><br>
+A: [답변 5 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left;"><strong>📌 참고할 만한 사이트</strong></p>
-<ul style="text-align: left;">
+<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📌 참고할 만한 사이트</strong></p>
+<ul style="text-align: left; line-height: 1.8; margin-bottom: 20px;">
 <li><a href="https://www.coupang.com" target="_blank">쿠팡 공식 쇼핑몰</a></li>
 <li><a href="https://shopping.naver.com" target="_blank">네이버 스마트스토어</a></li>
 <li>[관련 사이트 3]</li>
@@ -176,10 +183,10 @@ A: [답변 5]</p>
 <li>[관련 사이트 5]</li>
 </ul>
 
-<p style="text-align: left;"><strong>📝 마무리 요약 및 실천 유도</strong></p>
-<p style="text-align: left;">[마무리 문단 및 행동 촉구]</p>
+<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📝 마무리 요약 및 실천 유도</strong></p>
+<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[마무리 문단 및 행동 촉구 - 3-4문장으로 구체적으로]</p>
 
-<p style="text-align: left;">※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.</p>
+<p style="text-align: left; line-height: 1.8; margin-top: 20px;">※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.</p>
 
 블로그 글을 작성해주세요:
 """
