@@ -10,6 +10,7 @@ if sys.platform == "win32" and sys.stdout is not None:
         pass
 
 from google import genai
+from datetime import datetime
 
 class GeminiAPI:
     """Gemini API를 사용하기 위한 클래스"""
@@ -85,6 +86,10 @@ class GeminiAPI:
         Returns:
             생성된 블로그 글
         """
+        # 오늘 날짜 가져오기
+        today = datetime.now()
+        today_str = today.strftime("%Y년 %m월 %d일")
+        
         prompt = f"""
 다음 주제로 전문적인 블로그 글을 작성해주세요:
 
@@ -94,7 +99,7 @@ class GeminiAPI:
 
 필수 구성 요소:
 1. 매력적이고 클릭하고 싶은 제목 (감탄사나 질문형)
-2. 본문 최상단: "※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다."
+2. 본문 최상단: "※ 본 글은 {today_str} 기준 최신 정보를 바탕으로 작성되었습니다."
 3. 도입부: 주제와 관련된 공감 가는 상황 설명 (3-4문장, 충분히 상세하게)
 4. "✔ 이런 분들께 추천합니다!" 섹션 (4-5개 항목)
 5. "📌 목차" 섹션 (5-6개 항목) - 각 목차 항목은 클릭 가능한 링크로 만들 것
@@ -122,7 +127,7 @@ class GeminiAPI:
 출력 형식 (HTML 태그 사용, 기본서체, 본문 16px, 모든 텍스트는 왼쪽 정렬, 줄 간격 1.8 적용):
 제목: [매력적인 제목]
 
-<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">※ 본 글은 {today_str} 기준 최신 정보를 바탕으로 작성되었습니다.</p>
 
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 20px;">[도입부 문단 - 3-4문장으로 충분히 상세하게 작성]</p>
 
@@ -146,15 +151,15 @@ class GeminiAPI:
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>🔍 전체 요약</strong></p>
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 25px;">[2-3줄 요약]</p>
 
-<h2 id="section1" style="font-family: inherit; font-size: 24px; font-weight: 700; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><strong>[소제목 1]</strong></h2>
+<h2 id="section1" style="font-family: inherit; font-size: 24px; font-weight: 900; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><b><strong>[소제목 1]</strong></b></h2>
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 구체적인 예시 포함]</p>
 
-<h2 id="section2" style="font-family: inherit; font-size: 24px; font-weight: 700; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><strong>[소제목 2]</strong></h2>
+<h2 id="section2" style="font-family: inherit; font-size: 24px; font-weight: 900; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><b><strong>[소제목 2]</strong></b></h2>
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 실용적인 팁 포함]</p>
 
-<h2 id="section3" style="font-family: inherit; font-size: 24px; font-weight: 700; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><strong>[소제목 3]</strong></h2>
+<h2 id="section3" style="font-family: inherit; font-size: 24px; font-weight: 900; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><b><strong>[소제목 3]</strong></b></h2>
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
 <p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장]</p>
 
