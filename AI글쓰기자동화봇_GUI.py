@@ -752,23 +752,23 @@ class NaverBlogAutomationGUI:
 - 본문은 충분히 길고 상세하게 작성 (최소 2000자 이상)
 - 각 문단은 3-4문장으로 구성하여 읽기 쉽게
 
-출력 형식 (HTML 태그 사용, 모든 텍스트는 왼쪽 정렬, 줄 간격 1.8 적용):
+출력 형식 (HTML 태그 사용, 기본서체, 본문 16px, 모든 텍스트는 왼쪽 정렬, 줄 간격 1.8 적용):
 제목: [매력적인 제목]
 
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.</p>
 
-<p style="text-align: left; line-height: 1.8; margin-bottom: 20px;">[도입부 문단 - 3-4문장으로 충분히 상세하게 작성]</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 20px;">[도입부 문단 - 3-4문장으로 충분히 상세하게 작성]</p>
 
-<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>✔ 이런 분들께 추천합니다!</strong></p>
-<ul style="text-align: left; line-height: 1.8; margin-bottom: 20px;">
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>✔ 이런 분들께 추천합니다!</strong></p>
+<ul style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 20px;">
 <li>[추천 대상 1]</li>
 <li>[추천 대상 2]</li>
 <li>[추천 대상 3]</li>
 <li>[추천 대상 4]</li>
 </ul>
 
-<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📌 목차</strong></p>
-<ul style="text-align: left; line-height: 1.8; margin-bottom: 20px;">
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📌 목차</strong></p>
+<ul style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 20px;">
 <li><a href="#section1">[목차 1]</a></li>
 <li><a href="#section2">[목차 2]</a></li>
 <li><a href="#section3">[목차 3]</a></li>
@@ -776,39 +776,39 @@ class NaverBlogAutomationGUI:
 <li><a href="#section5">[목차 5]</a></li>
 </ul>
 
-<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>🔍 전체 요약</strong></p>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 25px;">[2-3줄 요약]</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>🔍 전체 요약</strong></p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 25px;">[2-3줄 요약]</p>
 
-<h2 id="section1" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 1]</h2>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 구체적인 예시 포함]</p>
+<h2 id="section1" style="font-family: inherit; font-size: 24px; font-weight: 700; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><strong>[소제목 1]</strong></h2>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 구체적인 예시 포함]</p>
 
-<h2 id="section2" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 2]</h2>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 실용적인 팁 포함]</p>
+<h2 id="section2" style="font-family: inherit; font-size: 24px; font-weight: 700; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><strong>[소제목 2]</strong></h2>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장, 실용적인 팁 포함]</p>
 
-<h2 id="section3" style="font-size: 24px; font-weight: bold; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;">[소제목 3]</h2>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장]</p>
+<h2 id="section3" style="font-family: inherit; font-size: 24px; font-weight: 700; color: #333; margin-top: 35px; margin-bottom: 15px; text-align: left;"><strong>[소제목 3]</strong></h2>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[첫 번째 문단 - 3-4문장]</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[두 번째 문단 - 3-4문장]</p>
 
-<p style="text-align: left; line-height: 1.8; margin-top: 35px; margin-bottom: 10px;"><strong>자주 묻는 질문(FAQ)</strong></p>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 1]</strong><br>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-top: 35px; margin-bottom: 10px;"><strong>자주 묻는 질문(FAQ)</strong></p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 1]</strong><br>
 A: [답변 1 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 2]</strong><br>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 2]</strong><br>
 A: [답변 2 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 3]</strong><br>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 3]</strong><br>
 A: [답변 3 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 4]</strong><br>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 4]</strong><br>
 A: [답변 4 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 5]</strong><br>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;"><strong>Q: [질문 5]</strong><br>
 A: [답변 5 - 2-3문장으로 상세하게]</p>
 
-<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📌 참고할 만한 사이트</strong></p>
-<ul style="text-align: left; line-height: 1.8; margin-bottom: 20px;">
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📌 참고할 만한 사이트</strong></p>
+<ul style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 20px;">
 <li><a href="https://www.coupang.com" target="_blank">쿠팡 공식 쇼핑몰</a></li>
 <li><a href="https://shopping.naver.com" target="_blank">네이버 스마트스토어</a></li>
 <li>[관련 사이트 3]</li>
@@ -816,10 +816,10 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
 <li>[관련 사이트 5]</li>
 </ul>
 
-<p style="text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📝 마무리 요약 및 실천 유도</strong></p>
-<p style="text-align: left; line-height: 1.8; margin-bottom: 15px;">[마무리 문단 및 행동 촉구 - 3-4문장으로 구체적으로]</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-top: 25px; margin-bottom: 10px;"><strong>📝 마무리 요약 및 실천 유도</strong></p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-bottom: 15px;">[마무리 문단 및 행동 촉구 - 3-4문장으로 구체적으로]</p>
 
-<p style="text-align: left; line-height: 1.8; margin-top: 20px;">※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.</p>
+<p style="font-family: inherit; font-size: 16px; text-align: left; line-height: 1.8; margin-top: 20px;">※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.</p>
 
 블로그 글을 작성해주세요:
 """
@@ -980,7 +980,7 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
             
             time.sleep(1)
             
-            # 제목 입력 (ActionChains로 텍스트 입력 - 완전히 편집 가능하게)
+            # 제목 입력 (send_keys로 직접 입력 - 완전히 편집 가능한 텍스트)
             title_text = blog_content["title"]
             self.log(f"제목 입력 중: {title_text[:50]}...")
 
@@ -1001,23 +1001,23 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
                     EC.element_to_be_clickable((By.CSS_SELECTOR, ".se-section-documentTitle"))
                 )
 
-                # 제목 필드 클릭
+                # 제목 필드 클릭 및 포커스
                 title_element.click()
                 time.sleep(0.5)
                 
                 # 기존 텍스트 전체 선택 및 삭제
-                actions = ActionChains(self.driver)
-                actions.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).perform()
+                title_element.send_keys(Keys.CONTROL + 'a')
                 time.sleep(0.2)
-                actions.send_keys(Keys.DELETE).perform()
+                title_element.send_keys(Keys.DELETE)
                 time.sleep(0.3)
                 
-                # ActionChains로 제목 입력 (한 글자씩)
-                for char in title_text:
-                    actions.send_keys(char).perform()
-                    time.sleep(0.01)  # 빠르게 입력
+                # send_keys로 직접 제목 입력 (텍스트로 입력됨)
+                title_element.send_keys(title_text)
+                time.sleep(0.8)
                 
-                time.sleep(0.5)
+                # Enter 키를 눌러 제목 확정 (편집 가능 유지)
+                title_element.send_keys(Keys.RETURN)
+                time.sleep(0.3)
 
                 self.log("✓ 제목 입력 완료 (텍스트로 편집 가능)")
                 title_success = True
