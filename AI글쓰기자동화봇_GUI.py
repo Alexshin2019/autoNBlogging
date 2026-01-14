@@ -665,34 +665,91 @@ class NaverBlogAutomationGUI:
     def generate_blog_content(self, topic):
         """블로그 글 생성"""
         try:
-            # 더 구조화된 블로그 글을 위한 커스텀 프롬프트
+            # 전문적인 블로그 형식의 커스텀 프롬프트
             custom_prompt = f"""
-다음 주제로 보기 좋은 블로그 글을 작성해주세요:
+다음 주제로 전문적인 블로그 글을 작성해주세요:
 
 주제: {topic}
 
-요구사항:
-1. 매력적이고 클릭하고 싶은 제목을 작성할 것
-2. 첫 문단은 독자의 관심을 끄는 인트로로 작성 (2-3줄)
-3. 본문은 3-5개의 명확한 문단으로 구성
-4. 각 문단은 하나의 핵심 아이디어를 다룰 것
-5. 실용적인 정보와 구체적인 예시를 포함
-6. 마지막 문단은 간단한 결론 또는 행동 촉구
-7. 한국어로 작성하고, 친근하고 읽기 쉬운 문체 사용
-8. 마크다운 문법(#, **, *, _, 등)을 절대 사용하지 말 것
+필수 구성 요소:
+1. 매력적이고 클릭하고 싶은 제목 (감탄사나 질문형)
+2. 본문 최상단: "※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다."
+3. 도입부: 주제와 관련된 공감 가는 상황 설명
+4. "✔ 이런 분들께 추천합니다!" 섹션 (4-5개 항목)
+5. "📌 목차" 섹션 (5-6개 항목)
+6. "🔍 전체 요약" 섹션 (2-3줄)
+7. 본문 내용 (3-5개의 소제목으로 구성, 각 소제목은 구체적이고 실용적인 정보 포함)
+8. "자주 묻는 질문(FAQ)" 섹션 (5개의 질문과 답변)
+9. "📌 참고할 만한 사이트" 섹션 (5개 링크)
+10. "📝 마무리 요약 및 실천 유도" 섹션
+11. 마지막: "※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나..."
 
-형식:
-제목: [여기에 제목 - 감탄사나 질문형태로 흥미롭게]
+작성 규칙:
+- 마크다운 문법(#, **, *, _)을 절대 사용하지 말 것
+- 순수 텍스트로만 작성
+- 각 섹션은 명확하게 구분
+- 친근하면서도 전문적인 어투
+- 구체적인 예시와 팁 포함
 
-[인트로 문단 - 독자의 공감을 이끌어내는 내용]
+출력 형식:
+제목: [매력적인 제목]
 
-[본문 문단 1 - 첫 번째 핵심 내용]
+※ 본 글은 2025년 9월 4일 기준 최신 정보를 바탕으로 작성되었습니다.
 
-[본문 문단 2 - 두 번째 핵심 내용]
+[도입부 문단]
 
-[본문 문단 3 - 세 번째 핵심 내용]
+✔ 이런 분들께 추천합니다!
+- [추천 대상 1]
+- [추천 대상 2]
+- [추천 대상 3]
+- [추천 대상 4]
 
-[결론 문단 - 요약 또는 행동 촉구]
+📌 목차
+- [목차 1]
+- [목차 2]
+- [목차 3]
+- [목차 4]
+- [목차 5]
+
+🔍 전체 요약
+[2-3줄 요약]
+
+[소제목 1]
+[내용...]
+
+[소제목 2]
+[내용...]
+
+[소제목 3]
+[내용...]
+
+자주 묻는 질문(FAQ)
+Q: [질문 1]
+A: [답변 1]
+
+Q: [질문 2]
+A: [답변 2]
+
+Q: [질문 3]
+A: [답변 3]
+
+Q: [질문 4]
+A: [답변 4]
+
+Q: [질문 5]
+A: [답변 5]
+
+📌 참고할 만한 사이트
+- 쿠팡 공식 쇼핑몰: https://www.coupang.com
+- 네이버 스마트스토어: https://shopping.naver.com
+- [관련 사이트 3]
+- [관련 사이트 4]
+- [관련 사이트 5]
+
+📝 마무리 요약 및 실천 유도
+[마무리 문단 및 행동 촉구]
+
+※ 본 글은 다양한 공식 자료를 바탕으로 작성되었으나, 작성자도 오류가 있을 수 있으며 모든 내용은 참고용입니다. 최종 신청 전에는 반드시 관련 기관의 공식 공고문을 통해 정확한 정보를 확인하시기 바랍니다.
 
 블로그 글을 작성해주세요:
 """
@@ -722,23 +779,8 @@ class NaverBlogAutomationGUI:
                 title = lines[0].strip()
                 content_lines = lines[1:]
             
-            # 본문 정리
-            content_paragraphs = []
-            current_paragraph = []
-            
-            for line in content_lines:
-                line_stripped = line.strip()
-                if line_stripped:
-                    current_paragraph.append(line_stripped)
-                else:
-                    if current_paragraph:
-                        content_paragraphs.append(' '.join(current_paragraph))
-                        current_paragraph = []
-            
-            if current_paragraph:
-                content_paragraphs.append(' '.join(current_paragraph))
-            
-            content = '\n\n'.join(content_paragraphs)
+            # 본문 정리 (구조 유지)
+            content = '\n'.join(content_lines).strip()
             
             return {
                 "title": title,
@@ -911,29 +953,31 @@ class NaverBlogAutomationGUI:
                 """, content_element)
                 time.sleep(1)
                 
-                # 본문을 문단별로 나누어 입력
-                paragraphs = [p.strip() for p in content_text.split('\n\n') if p.strip()]
-                self.log(f"총 {len(paragraphs)}개 문단 입력 시작...")
+                # 본문을 줄별로 입력 (구조 유지)
+                lines = content_text.split('\n')
+                total_lines = len(lines)
+                self.log(f"총 {total_lines}줄 입력 시작...")
                 
                 # 천천히 타이핑 (실제로 입력되는 것처럼)
-                for i, paragraph in enumerate(paragraphs):
-                    self.log(f"  문단 {i+1}/{len(paragraphs)} 입력 중...")
+                for i, line in enumerate(lines):
+                    if i % 10 == 0:  # 10줄마다 진행 상황 표시
+                        self.log(f"  {i}/{total_lines}줄 입력 중...")
                     
-                    # ActionChains로 실제 타이핑
-                    actions = ActionChains(self.driver)
-                    for char in paragraph:
-                        actions.send_keys(char)
-                        actions.pause(0.01)  # 빠르게
-                    actions.perform()
+                    line_stripped = line.strip()
+                    if line_stripped:
+                        # ActionChains로 실제 타이핑
+                        actions = ActionChains(self.driver)
+                        for char in line_stripped:
+                            actions.send_keys(char)
+                            actions.pause(0.008)  # 빠르게
+                        actions.perform()
                     
-                    # 문단 사이 Enter 2번
-                    if i < len(paragraphs) - 1:
-                        time.sleep(0.2)
+                    # 줄바꿈
+                    if i < len(lines) - 1:
                         actions = ActionChains(self.driver)
                         actions.send_keys(Keys.ENTER)
-                        actions.send_keys(Keys.ENTER)
                         actions.perform()
-                        time.sleep(0.2)
+                        time.sleep(0.05)
                 
                 self.log("✓ 본문 입력 완료")
                 time.sleep(2)
