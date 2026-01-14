@@ -980,10 +980,10 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
             
             time.sleep(1)
             
-            # 제목 입력
+            # 제목 입력 (클립보드 방식 - 편집 가능하게)
             title_text = blog_content["title"]
             self.log(f"제목 입력 중: {title_text[:50]}...")
-            
+
             title_success = False
             try:
                 # 제목 입력 필드 찾기
@@ -991,40 +991,47 @@ A: [답변 5 - 2-3문장으로 상세하게]</p>
                     EC.presence_of_element_located((By.CSS_SELECTOR, ".se-section-documentTitle"))
                 )
                 self.log("✓ 제목 요소 발견")
-                
+
                 # 스크롤하여 보이게 하기
                 self.driver.execute_script("arguments[0].scrollIntoView({block: 'center', behavior: 'smooth'});", title_element)
                 time.sleep(1)
-                
+
                 # 클릭 가능할 때까지 대기
                 WebDriverWait(self.driver, 10).until(
                     EC.element_to_be_clickable((By.CSS_SELECTOR, ".se-section-documentTitle"))
                 )
+
+                # 클립보드를 사용한 제목 입력 (편집 가능)
+                title_element.click()
+                time.sleep(0.5)
                 
-                # JavaScript로 직접 텍스트 입력 및 글씨 크기 설정
+                # 기존 텍스트 전체 선택 및 삭제
+                title_element.send_keys(Keys.CONTROL + 'a')
+                time.sleep(0.2)
+                title_element.send_keys(Keys.DELETE)
+                time.sleep(0.2)
+                
+                # 클립보드로 제목 복사 및 붙여넣기
+                pyperclip.copy(title_text)
+                time.sleep(0.3)
+                title_element.send_keys(Keys.CONTROL + 'v')
+                time.sleep(0.5)
+                
+                # 제목 글씨 크기 설정 (JavaScript로 스타일만 적용)
                 self.driver.execute_script("""
                     var element = arguments[0];
-                    element.focus();
-                    element.textContent = arguments[1];
-                    element.innerText = arguments[1];
-                    
-                    // 제목 글씨 크기 크게 설정 (26px)
                     element.style.fontSize = '26px';
                     element.style.fontWeight = 'bold';
-                    
-                    // 변경 이벤트 발생
-                    var event = new Event('input', { bubbles: true });
-                    element.dispatchEvent(event);
-                """, title_element, title_text)
-                
-                self.log("✓ 제목 입력 완료 (글씨 크기: 26px, 굵게)")
+                """, title_element)
+
+                self.log("✓ 제목 입력 완료 (클립보드 방식, 편집 가능)")
                 title_success = True
                 time.sleep(1)
-                    
+
             except Exception as e:
                 self.log(f"✗ 제목 입력 오류: {str(e)}")
                 self.log("⚠ 제목 입력을 건너뜁니다")
-                
+
             if not title_success:
                 self.log("⚠ 제목 입력 실패 - 수동으로 입력해주세요")
             
